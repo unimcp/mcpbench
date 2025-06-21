@@ -1,0 +1,13 @@
+{
+    "name": "mcp-typescript-client-tests",
+    "version": "1.0.0",
+    "scripts": {
+        "test": "jest",
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0",
+        "jest": "^29.0.0",
+        "@types/jest": "^29.0.0"
+    }
+} 

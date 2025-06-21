@@ -1,0 +1,21 @@
+FROM rust:1.75-slim
+
+WORKDIR /app
+
+# Copy template files first (these will be overwritten by version-specific files if they exist)
+COPY matrix/templates/rust/server /app
+
+# Copy version-specific files (these will overwrite templates if needed)
+COPY matrix/rust/server/v${VERSION} /app
+
+# Build the project
+RUN cargo build --release
+
+# Set environment variables
+ENV PORT=8000
+
+# Expose the port
+EXPOSE 8000
+
+# Command to run the server
+CMD ["./target/release/basic_server"] 

@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ../../${SERVER_LANG}/${SERVER}/v${SERVER_VER}
+      dockerfile: Dockerfile
+    ports:
+      - "${SERVER_PORT}:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NODE_ENV=production
+      - RUST_LOG=info
+    volumes:
+      - ../../${SERVER_LANG}/${SERVER}/v${SERVER_VER}:/app
+    command: ${SERVER_COMMAND}
+
+  client:
+    build:
+      context: ../../${CLIENT_LANG}/${CLIENT}/v${CLIENT_VER}
+      dockerfile: Dockerfile
+    ports:
+      - "${CLIENT_PORT}:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NODE_ENV=production
+      - RUST_LOG=info
+    volumes:
+      - ../../${CLIENT_LANG}/${CLIENT}/v${CLIENT_VER}:/app
+    command: ${CLIENT_COMMAND}
+    depends_on:
+      - server
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NODE_ENV=production
+      - RUST_LOG=info
+    volumes:
+      - .:/app
+    depends_on:
+      - client
+      - server 

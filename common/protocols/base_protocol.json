@@ -1,0 +1,264 @@
+{
+    "version": "2025-03-26",
+    "protocol": {
+        "name": "MCPBaseProtocol",
+        "description": "Base protocol interface for Model Context Protocol compatibility testing",
+        "base": {
+            "transport": {
+                "type": "JSON-RPC 2.0",
+                "messages": {
+                    "request": {
+                        "jsonrpc": "2.0",
+                        "id": "string | number",
+                        "method": "string",
+                        "params": {
+                            "type": "object",
+                            "properties": {
+                                "key": "unknown"
+                            }
+                        }
+                    },
+                    "response": {
+                        "jsonrpc": "2.0",
+                        "id": "string | number",
+                        "result": {
+                            "type": "object",
+                            "properties": {
+                                "key": "unknown"
+                            }
+                        },
+                        "error": {
+                            "code": "number",
+                            "message": "string",
+                            "data": "unknown"
+                        }
+                    },
+                    "notification": {
+                        "jsonrpc": "2.0",
+                        "method": "string",
+                        "params": {
+                            "type": "object",
+                            "properties": {
+                                "key": "unknown"
+                            }
+                        }
+                    }
+                },
+                "batching": {
+                    "supported": "boolean",
+                    "description": "Support for sending/receiving multiple requests in a single message"
+                }
+            },
+            "connection": "stateful",
+            "auth": {
+                "http": {
+                    "type": "framework",
+                    "description": "Authorization framework for HTTP-based transports",
+                    "required": false
+                },
+                "stdio": {
+                    "type": "environment",
+                    "description": "Credentials from environment variables",
+                    "required": false
+                },
+                "custom": {
+                    "type": "negotiable",
+                    "description": "Custom authentication strategies",
+                    "required": false
+                }
+            },
+            "capabilities": {
+                "negotiation": {
+                    "client": {
+                        "sampling": {
+                            "supported": "boolean",
+                            "version": "string"
+                        },
+                        "roots": {
+                            "supported": "boolean",
+                            "version": "string"
+                        }
+                    },
+                    "server": {
+                        "resources": {
+                            "supported": "boolean",
+                            "version": "string"
+                        },
+                        "prompts": {
+                            "supported": "boolean",
+                            "version": "string"
+                        },
+                        "tools": {
+                            "supported": "boolean",
+                            "version": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "operations": {
+            "initialize": {
+                "type": "request",
+                "parameters": {
+                    "client_info": {
+                        "name": "string",
+                        "version": "string",
+                        "capabilities": "object"
+                    }
+                },
+                "response": {
+                    "server_info": {
+                        "name": "string",
+                        "version": "string",
+                        "capabilities": "object"
+                    }
+                }
+            },
+            "shutdown": {
+                "type": "request",
+                "parameters": {},
+                "response": {
+                    "success": "boolean"
+                }
+            },
+            "resources": {
+                "list": {
+                    "type": "request",
+                    "parameters": {
+                        "filter": "object?"
+                    },
+                    "response": {
+                        "resources": ["object"]
+                    }
+                },
+                "get": {
+                    "type": "request",
+                    "parameters": {
+                        "resource_id": "string"
+                    },
+                    "response": {
+                        "resource": "object"
+                    }
+                },
+                "watch": {
+                    "type": "request",
+                    "parameters": {
+                        "resource_id": "string"
+                    },
+                    "response": {
+                        "success": "boolean"
+                    }
+                }
+            },
+            "tools": {
+                "list": {
+                    "type": "request",
+                    "parameters": {},
+                    "response": {
+                        "tools": ["object"]
+                    }
+                },
+                "call": {
+                    "type": "request",
+                    "parameters": {
+                        "name": "string",
+                        "arguments": "object"
+                    },
+                    "response": {
+                        "result": "object",
+                        "error": "string?"
+                    }
+                }
+            },
+            "notifications": {
+                "tools_list_changed": {
+                    "type": "notification",
+                    "method": "notifications/tools/list_changed",
+                    "parameters": {
+                        "type": "object?",
+                        "properties": {
+                            "key": "unknown"
+                        }
+                    }
+                }
+            },
+            "sampling": {
+                "request": {
+                    "type": "request",
+                    "parameters": {
+                        "prompt": "string",
+                        "constraints": "object?"
+                    },
+                    "response": {
+                        "result": "string",
+                        "error": "string?"
+                    }
+                }
+            },
+            "progress": {
+                "type": "notification",
+                "parameters": {
+                    "operation_id": "string",
+                    "status": "string",
+                    "progress": "number",
+                    "message": "string?"
+                }
+            },
+            "log": {
+                "type": "notification",
+                "parameters": {
+                    "level": "string",
+                    "message": "string",
+                    "data": "object?"
+                }
+            }
+        },
+        "error_codes": {
+            "INVALID_REQUEST": {
+                "code": -32600,
+                "message": "Invalid request format"
+            },
+            "METHOD_NOT_FOUND": {
+                "code": -32601,
+                "message": "Method not implemented"
+            },
+            "INVALID_PARAMS": {
+                "code": -32602,
+                "message": "Invalid parameters"
+            },
+            "INTERNAL_ERROR": {
+                "code": -32603,
+                "message": "Internal server error"
+            },
+            "RESOURCE_NOT_FOUND": {
+                "code": -32001,
+                "message": "Requested resource not found"
+            },
+            "TOOL_EXECUTION_ERROR": {
+                "code": -32002,
+                "message": "Tool execution failed"
+            },
+            "SAMPLING_ERROR": {
+                "code": -32003,
+                "message": "Sampling request failed"
+            },
+            "CAPABILITY_NOT_SUPPORTED": {
+                "code": -32004,
+                "message": "Requested capability not supported"
+            },
+            "OPERATION_CANCELLED": {
+                "code": -32005,
+                "message": "Operation was cancelled"
+            }
+        },
+        "security": {
+            "principles": [
+                "User consent required for data access",
+                "Explicit authorization for tool execution",
+                "Clear documentation of security implications",
+                "Appropriate access controls",
+                "Privacy-focused design"
+            ]
+        }
+    }
+} 

@@ -1,0 +1,115 @@
+{
+    "python": {
+        "1.9.4": {
+            "version": "1.9.4",
+            "release_date": "2025-06-12T07:32:19Z",
+            "is_latest": true,
+            "is_deprecated": false,
+            "compatibility_matrix": {
+                "python": [
+                    "1.9.4",
+                    "1.9.3"
+                ],
+                "typescript": [
+                    "1.12.3",
+                    "1.12.2"
+                ],
+                "rust": [
+                    "0.1.5"
+                ]
+            },
+            "package_name": "mcp-python-sdk==1.9.4",
+            "github_repo": "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v1.9.4",
+            "requirements_file": "requirements.txt"
+        },
+        "1.9.3": {
+            "version": "1.9.3",
+            "release_date": "2025-06-05T15:41:37Z",
+            "is_latest": false,
+            "is_deprecated": false,
+            "compatibility_matrix": {
+                "python": [
+                    "1.9.4",
+                    "1.9.3"
+                ],
+                "typescript": [
+                    "1.12.3",
+                    "1.12.2"
+                ],
+                "rust": [
+                    "0.1.5"
+                ]
+            },
+            "package_name": "mcp-python-sdk==1.9.3",
+            "github_repo": "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v1.9.3",
+            "requirements_file": "requirements.txt"
+        }
+    },
+    "typescript": {
+        "1.12.3": {
+            "version": "1.12.3",
+            "release_date": "2025-06-12T18:24:58Z",
+            "is_latest": true,
+            "is_deprecated": false,
+            "compatibility_matrix": {
+                "typescript": [
+                    "1.12.3",
+                    "1.12.2"
+                ],
+                "python": [
+                    "1.9.4",
+                    "1.9.3"
+                ],
+                "rust": [
+                    "0.1.5"
+                ]
+            },
+            "package_name": "@modelcontextprotocol/sdk",
+            "github_repo": "https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/1.12.3"
+        },
+        "1.12.2": {
+            "version": "1.12.2",
+            "release_date": "2025-06-12T18:10:56Z",
+            "is_latest": false,
+            "is_deprecated": false,
+            "compatibility_matrix": {
+                "typescript": [
+                    "1.12.3",
+                    "1.12.2"
+                ],
+                "python": [
+                    "1.9.4",
+                    "1.9.3"
+                ],
+                "rust": [
+                    "0.1.5"
+                ]
+            },
+            "package_name": "@modelcontextprotocol/sdk",
+            "github_repo": "https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/1.12.2"
+        }
+    },
+    "rust": {
+        "0.1.5": {
+            "version": "0.1.5",
+            "release_date": "2025-06-15T12:45:01Z",
+            "is_latest": true,
+            "is_deprecated": false,
+            "compatibility_matrix": {
+                "rust": [
+                    "0.1.5"
+                ],
+                "python": [
+                    "1.9.4",
+                    "1.9.3"
+                ],
+                "typescript": [
+                    "1.12.3",
+                    "1.12.2"
+                ]
+            },
+            "package_name": "mcp-rust-sdk",
+            "github_repo": "https://github.com/modelcontextprotocol/rust-sdk"
+        }
+    }
+}

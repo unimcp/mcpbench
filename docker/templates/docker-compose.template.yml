@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  ${ROLE}:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NODE_ENV=production
+      - RUST_LOG=info
+    volumes:
+      - .:/app
+    command: ${COMMAND} 
