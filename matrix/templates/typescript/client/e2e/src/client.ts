@@ -160,6 +160,10 @@ class MCPE2EClient {
         message: 'Hello from TypeScript E2E client!' 
       });
 
+      // Step 3: Call get_server_info tool
+      console.log('\n\x1b[33m3. Testing get_server_info tool...\x1b[0m');
+      await this.callTool('get_server_info', {});
+
       console.log('\n\x1b[32m✓ All E2E tests completed successfully!\x1b[0m');
       console.log(`\x1b[36mTotal notifications received: ${this.notificationCount}\x1b[0m`);
 

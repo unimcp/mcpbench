@@ -50,19 +50,53 @@ def main(
     app = Server("mcp-python-e2e-server")
 
     @app.call_tool()
-    async def send_message(message: str, **kwargs) -> list[
+    async def handle_tool_call(
+        name: str, arguments: dict
+    ) -> list[
         types.TextContent
         | types.ImageContent
         | types.AudioContent
         | types.EmbeddedResource
     ]:
-        """Send a message and return a confirmation."""
+        """Handle all tool calls by routing based on tool name."""
         try:
-            logger.info("=== ENTERING send_message function ===")
+            logger.info(f"=== ENTERING handle_tool_call function ===")
+            logger.info(f"Tool call: name='{name}', arguments={arguments}")
+            
             ctx = app.request_context
             
+            if name == "send_message":
+                return await handle_send_message(arguments, ctx)
+            elif name == "get_server_info":
+                return await handle_get_server_info(arguments, ctx)
+            else:
+                raise ValueError(f"Unknown tool: {name}")
+                
+        except Exception as e:
+            logger.error(f"Exception in handle_tool_call: {e}")
+            logger.error(f"Exception type: {type(e)}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            raise
+
+    async def handle_send_message(
+        arguments: dict, ctx
+    ) -> list[
+        types.TextContent
+        | types.ImageContent
+        | types.AudioContent
+        | types.EmbeddedResource
+    ]:
+        """Handle send_message tool call."""
+        try:
+            logger.info("=== ENTERING handle_send_message function ===")
+            
+            # Extract message from arguments
+            message = arguments.get("message", "No message provided")
+            
             # Debug logging
-            logger.info(f"send_message called with message='{message}', kwargs={kwargs}")
+            logger.info(f"send_message called with arguments={arguments}")
+            logger.info(f"Extracted message: '{message}'")
             
             # Send a log message to demonstrate notifications
             await ctx.session.send_log_message(
@@ -79,31 +113,30 @@ def main(
                 )
             ]
             
-            logger.info("=== EXITING send_message function ===")
+            logger.info("=== EXITING handle_send_message function ===")
             return result
         except Exception as e:
-            logger.error(f"Exception in send_message: {e}")
+            logger.error(f"Exception in handle_send_message: {e}")
             logger.error(f"Exception type: {type(e)}")
             import traceback
             logger.error(f"Traceback: {traceback.format_exc()}")
             raise
 
-    @app.call_tool()
-    async def get_server_info(**kwargs) -> list[
+    async def handle_get_server_info(
+        arguments: dict, ctx
+    ) -> list[
         types.TextContent
         | types.ImageContent
         | types.AudioContent
         | types.EmbeddedResource
     ]:
-        """Get server information."""
+        """Handle get_server_info tool call."""
         try:
-            logger.info("=== ENTERING get_server_info function ===")
+            logger.info("=== ENTERING handle_get_server_info function ===")
             import datetime
             
-            ctx = app.request_context
-            
             # Debug logging
-            logger.info(f"get_server_info called with kwargs={kwargs}")
+            logger.info(f"get_server_info called with arguments={arguments}")
             
             # Send a log message
             await ctx.session.send_log_message(
@@ -128,10 +161,10 @@ def main(
                 )
             ]
             
-            logger.info("=== EXITING get_server_info function ===")
+            logger.info("=== EXITING handle_get_server_info function ===")
             return result
         except Exception as e:
-            logger.error(f"Exception in get_server_info: {e}")
+            logger.error(f"Exception in handle_get_server_info: {e}")
             logger.error(f"Exception type: {type(e)}")
             import traceback
             logger.error(f"Traceback: {traceback.format_exc()}")
@@ -152,6 +185,14 @@ def main(
                             "description": "The message to send",
                         },
                     },
+                },
+            ),
+            types.Tool(
+                name="get_server_info",
+                description="Get server information and status",
+                inputSchema={
+                    "type": "object",
+                    "properties": {},
                 },
             ),
         ]
