@@ -1,0 +1,24 @@
+{
+  "name": "mcp-typescript-e2e-client",
+  "version": "1.0.0",
+  "description": "MCP TypeScript E2E Client for testing",
+  "type": "module",
+  "main": "dist/client.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/client.js",
+    "dev": "tsx src/client.ts",
+    "test": "npm run build && npm start"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
